@@ -54,8 +54,8 @@ services:
   sql1:
       platform: linux/amd64
       image: sqlservereap.azurecr.io/mssql-sql2025-ctp1-4-release/mssql-server-ubuntu-22.04:17.0.500.4_1
+      restart: unless-stopped
       depends_on: 
-        - config
         - nginx
       hostname: sql1
       networks:
@@ -74,9 +74,10 @@ services:
   sql-tools:
     platform: linux/amd64
     image: mcr.microsoft.com/mssql-tools
-    container_name: sql_tools
+    restart: "no"
     depends_on:
       - sql1
+      - model-puller
     networks:
       - app_network
     volumes:
@@ -87,7 +88,6 @@ services:
         sleep 2;
       done;
       /opt/mssql-tools/bin/sqlcmd -S sql1 -U sa -P S0methingS@Str0ng! -i /scripts/configure_model.sql"
-    restart: "no"
 
 networks:
   app_network:
