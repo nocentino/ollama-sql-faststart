@@ -37,7 +37,6 @@ services:
       
   nginx:
     image: nginx:latest
-    container_name: nginx_ollama
     restart: unless-stopped
     depends_on:
       - config
@@ -76,8 +75,10 @@ services:
     image: mcr.microsoft.com/mssql-tools
     restart: "no"
     depends_on:
-      - sql1
-      - model-puller
+      model-puller:
+        condition: service_completed_successfully
+      sql1:
+        condition: service_started
     networks:
       - app_network
     volumes:
