@@ -2,11 +2,11 @@
 
 ## Overview
 
-Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It provides a preconfigured environment for running SQL Server, managing models, and serving requests through NGINX with SSL support.
+Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It provides a preconfigured environment for running SQL Server, managing models, and serving requests through NGINX with SSL support and configures SQL Server to trust this certificate.
 
 ## Features
 
-- **SQL Server**: A preconfigured SQL Server instance with secure connections.
+- **SQL Server**: A preconfigured SQL Server instance.
 - **Ollama Integration**: Includes Ollama services for model management and pulling.
 - **NGINX with SSL**: Secure reverse proxy setup using NGINX and self-signed certificates.
 - **Health Checks**: Automated health checks for critical services.
@@ -32,18 +32,14 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 2. Build and start the services:
    ```bash
-   docker-compose up --build
+   docker-compose up 
    ```
 
 3. Verify that all services are running:
    - Access the SQL Server on port `1433`.
    - Access the Ollama service on port `11434`.
-   - Access NGINX on port `443`.
+   - Access NGINX on port `443` which routes to Ollama.
 
-4. (Optional) Run SQL scripts:
-   ```bash
-   docker-compose run sql-tools
-   ```
 
 ## Configuration
 
@@ -64,12 +60,4 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 - **Start Services**: Use `docker-compose up` to start all services.
 - **Stop Services**: Use `docker-compose down` to stop and remove containers.
-- **Rebuild Services**: Use `docker-compose up --build` to rebuild the images.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
