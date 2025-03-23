@@ -14,7 +14,7 @@ PRINT 'Creating External model "ollama"...';
 GO
 CREATE EXTERNAL MODEL ollama
 WITH (
-    LOCATION = 'https://model.example.com:443/api/embeddings',
+    LOCATION = 'https://model-web:443/api/embeddings',
     MODEL_PROVIDER = 'Ollama',
     MODEL_TYPE = EMBEDDINGS,
     MODEL = 'nomic-embed-text'

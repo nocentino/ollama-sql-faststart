@@ -14,14 +14,6 @@ GO
 USE [AdventureWorks2025];
 GO
 
-ALTER TABLE [SalesLT].[Product]
-ADD embeddings VECTOR(768), 
-    chunk NVARCHAR(2000);
-GO
-
-
-SELECT * FROM SalesLT.Product WHERE embeddings IS NULL;
-
 CREATE EXTERNAL MODEL ollama
 WITH (
     LOCATION = 'https://model.example.com:443/api/embeddings',
@@ -31,31 +23,59 @@ WITH (
 );
 GO
 
--- create the embeddings
-SET NOCOUNT ON
-DROP TABLE IF EXISTS #MYTEMP
-DECLARE @ProductID int
-declare @text nvarchar(max);
-SELECT * INTO #MYTEMP FROM [SalesLT].Product where embeddings is null;
-SELECT @ProductID = ProductID FROM #MYTEMP;
-SELECT TOP(1) @ProductID = ProductID FROM #MYTEMP
-WHILE @@ROWCOUNT <> 0
+-- Example: Altering a Table to Add Vector Embeddings Column
+ALTER TABLE [SalesLT].[Product]
+ADD embeddings VECTOR(768), chunk NVARCHAR(2000);
+GO
+
+SELECT * FROM SalesLT.Product WHERE embeddings IS NULL;
+
+
+-- CREATE THE EMBEDDINGS
+SET NOCOUNT ON;
+DROP TABLE IF EXISTS #MYTEMP;
+DECLARE @ProductID INT;
+DECLARE @text NVARCHAR(MAX);
+
+-- Create a temporary table with products that have NULL embeddings
+SELECT * 
+INTO #MYTEMP 
+FROM [SalesLT].[Product] 
+WHERE embeddings IS NULL;
+
+-- Loop through all rows in the temporary table
+WHILE EXISTS (SELECT 1 FROM #MYTEMP)
 BEGIN
-set @text = (SELECT p.Name + ' '+ ISNULL(p.Color,'No Color') + ' '+
-c.Name + ' '+ m.Name + ' '+ ISNULL(d.Description,'')
-FROM
-[SalesLT].[ProductCategory] c,
-[SalesLT].[ProductModel] m,
-[SalesLT].[Product] p
-LEFT OUTER JOIN
-[SalesLT].[vProductAndDescription] d
-on p.ProductID = d.ProductID
-and d.Culture = 'en'
-where p.ProductCategoryID = c.ProductCategoryID
-and p.ProductModelID = m.ProductModelID
-and p.ProductID = @ProductID);
-update [SalesLT].[Product] set [embeddings] = get_embeddings(ollama,
-@text) , [chunk] = @text where ProductID = @ProductID;
-DELETE FROM #MYTEMP WHERE ProductID = @ProductID
-SELECT TOP(1) @ProductID = ProductID FROM #MYTEMP
-END
+    -- Get the next ProductID from the temporary table
+    SELECT TOP(1) @ProductID = ProductID 
+    FROM #MYTEMP;
+
+    -- Generate the text for embeddings
+    SET @text = (
+        SELECT p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, '')
+        FROM [SalesLT].[ProductCategory] c,
+             [SalesLT].[ProductModel] m,
+             [SalesLT].[Product] p
+        LEFT OUTER JOIN [SalesLT].[vProductAndDescription] d
+        ON p.ProductID = d.ProductID AND d.Culture = 'en'
+        WHERE p.ProductCategoryID = c.ProductCategoryID AND p.ProductModelID = m.ProductModelID AND p.ProductID = @ProductID
+    );
+
+    -- Update the embeddings and chunk columns in the main table
+    UPDATE [SalesLT].[Product]
+    SET [embeddings] = get_embeddings(ollama, @text), 
+        [chunk] = @text
+    WHERE ProductID = @ProductID;
+
+    -- Remove the processed row from the temporary table
+    DELETE FROM #MYTEMP 
+    WHERE ProductID = @ProductID;
+
+    PRINT 'Processed ProductID: ' + CAST(@ProductID AS NVARCHAR(10));
+END;
+
+use  AdventureWorks2025;
+GO
+
+select * from SalesLT.Product where embeddings is null;
+select top 10 chunk, embeddings from SalesLT.Product

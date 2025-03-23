@@ -35,7 +35,7 @@ services:
       - app_network
     entrypoint: sh -c "sleep 5 && ollama pull nomic-embed-text"
       
-  nginx:
+  model-web:
     image: nginx:latest
     restart: unless-stopped
     depends_on:
@@ -48,19 +48,16 @@ services:
       - ./certs:/etc/nginx/certs:ro
     networks:
       app_network:
-        ipv4_address: 172.18.0.20
 
   sql1:
       platform: linux/amd64
       image: sqlservereap.azurecr.io/mssql-sql2025-ctp1-4-release/mssql-server-ubuntu-22.04:17.0.500.4_1
       restart: unless-stopped
       depends_on: 
-        - nginx
+        - model-web
       hostname: sql1
       networks:
         - app_network
-      extra_hosts:
-        - "model.example.com:172.18.0.20"
       ports:
         - 1433:1433
       volumes:
