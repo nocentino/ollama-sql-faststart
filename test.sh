@@ -1,4 +1,4 @@
-docker-compose up -d
+docker-compose up 
 
 
 # Check the status of the Ollama service
@@ -48,5 +48,8 @@ curl -k --resolve model.example.com:443:172.18.0.20 https://model.example.com:44
 
 
 
-docker-compose down
-docker volume rm ollam-faststarrt_ollama_models ollam-faststarrt_sql-data
+docker-compose down 
+#&& \
+docker volume rm ollama-sql-faststart_sql-data && \
+docker volume rm ollama-sql-faststart_ollama_models
+

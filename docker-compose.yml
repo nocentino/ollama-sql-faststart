@@ -5,11 +5,10 @@ services:
         dockerfile: dockerfile.ssl
       volumes:
         - ./certs:/certs
-      command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /certs/nginx.key -out /certs/nginx.crt -config /certs/openssl.cnf
+      command: sh /certs/generate_ssl.sh
 
   ollama:
       image: ollama/ollama:latest
-      container_name: ollama
       restart: unless-stopped
       healthcheck:
         test: ["CMD-SHELL", "ollama ls > /dev/null 2>&1 || exit 1"]
@@ -56,6 +55,7 @@ services:
       platform: linux/amd64
       image: sqlservereap.azurecr.io/mssql-sql2025-ctp1-4-release/mssql-server-ubuntu-22.04:17.0.500.4_1
       depends_on: 
+        - config
         - nginx
       hostname: sql1
       networks:
@@ -72,6 +72,7 @@ services:
         - MSSQL_SA_PASSWORD=S0methingS@Str0ng!
 
   sql-tools:
+    platform: linux/amd64
     image: mcr.microsoft.com/mssql-tools
     container_name: sql_tools
     depends_on:
@@ -98,4 +99,3 @@ networks:
 volumes:
   ollama_models:
   sql-data:
-  
