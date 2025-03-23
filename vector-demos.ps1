@@ -1,6 +1,7 @@
 # Import the dbatools module
 Import-Module dbatools
 
+
 # Create a PSCredential object with a username and password
 $Username = "sa"
 $Password = ConvertTo-SecureString "S0methingS@Str0ng!" -AsPlainText -Force

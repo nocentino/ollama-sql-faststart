@@ -9,6 +9,7 @@ services:
 
   ollama:
       image: ollama/ollama:latest
+      container_name: ollama
       restart: unless-stopped
       healthcheck:
         test: ["CMD-SHELL", "ollama ls > /dev/null 2>&1 || exit 1"]
