@@ -78,7 +78,7 @@ USE  AdventureWorks2025;
 GO
 
 -- you cannot read the vector datatype in the vs code extension
-select top 10 chunk, embeddings from SalesLT.Product
+SELECT TOP 10 chunk, embeddings from SalesLT.Product
 
 SELECT ProductID, Name, Color from SalesLT.Product
 WHERE embeddings IS NOT NULL
