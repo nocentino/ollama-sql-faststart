@@ -4,7 +4,7 @@ services:
         context: .
         dockerfile: dockerfile.ssl
       volumes:
-        - ./certs:/certs
+        - ./certs/:/certs/
       command: sh /certs/generate_ssl.sh
 
   ollama:

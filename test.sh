@@ -54,5 +54,5 @@ curl -k https://localhost:443/api/embeddings \
 docker-compose down 
 #&& \
 docker volume rm ollama-sql-faststart_sql-data && \
-docker volume rm ollama-sql-faststart_ollama_models
-
+docker volume rm ollama-sql-faststart_ollama_models &&
+rm ./certs/nginx.crt ./certs/nginx.key
