@@ -18,6 +18,7 @@ services:
         retries: 3
       environment:
         - OLLAMA_HOST=ollama
+        - OLLAMA_METAL=1
       volumes:
         - ollama_models:/root/.ollama
       ports:
