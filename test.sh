@@ -1,4 +1,4 @@
-docker-compose up 
+docker compose up 
 
 
 # Check the status of the Ollama service
@@ -7,6 +7,9 @@ docker exec ollama ollama ps
 
 # List all available models
 docker exec ollama ollama list
+
+
+docker exec ollama ollama pull nomic-embed-text
 
 
 # Show details of the nomic-embed-text model
@@ -51,8 +54,7 @@ curl -k https://localhost:443/api/embeddings \
 
 
 
-docker-compose down 
-#&& \
+docker compose down && \
 docker volume rm ollama-sql-faststart_sql-data && \
 docker volume rm ollama-sql-faststart_ollama_models &&
 rm ./certs/nginx.crt ./certs/nginx.key
