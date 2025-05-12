@@ -37,6 +37,22 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 3. Verify that all services are running with `docker ps`
 
+      Three containers are running successfully:
+
+      1. **SQL Server** 
+         - **Port**: **`1433`** - Connect with SQL clients
+         - Status: Healthy
+
+      2. **NGINX Reverse Proxy** 
+         - **Port**: **`443`** - Secure API access
+         - Status: Healthy
+
+      3. **Ollama Model Server** 
+         - **Port**: **`11434`** - Direct API access
+         - Status: Healthy
+
+      All services are operational and ready for vector database demos.
+
 4. Run Demos in `vector-demos.sql`
 
 
