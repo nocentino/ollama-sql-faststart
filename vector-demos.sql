@@ -1,7 +1,7 @@
 USE [master];
 GO
 RESTORE DATABASE [AdventureWorks2025]
-FROM DISK = '/var/opt/mssql/data/AdventureWorks2025_FULL.bak'
+FROM DISK = '/var/opt/mssql/backups/AdventureWorks2025_FULL.bak'
 WITH
     MOVE 'AdventureWorksLT2022_Data' TO '/var/opt/mssql/data/AdventureWorks2025_Data.mdf',
     MOVE 'AdventureWorksLT2022_Log' TO '/var/opt/mssql/data/AdventureWorks2025_log.ldf',
@@ -15,7 +15,6 @@ GO
 
 USE [AdventureWorks2025];
 GO
-
 
 
 -- Example: Altering a Table to Add Vector Embeddings Column

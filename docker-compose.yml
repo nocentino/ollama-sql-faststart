@@ -65,6 +65,7 @@ services:
       volumes:
         - sql-data:/var/opt/mssql
         - ./certs/nginx.crt:/var/opt/mssql/security/ca-certificates/public.crt:ro
+        - ./backups/AdventureWorks2025_FULL.bak:/var/opt/mssql/backups/AdventureWorks2025_FULL.bak
       environment:
         - ACCEPT_EULA=Y
         - MSSQL_SA_PASSWORD=S0methingS@Str0ng!
