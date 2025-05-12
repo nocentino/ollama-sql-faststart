@@ -32,7 +32,7 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 2. Build and start the services:
    ```bash
-   docker-compose up 
+   docker-compose up --detach
    ```
 
 3. Verify that all services are running:
@@ -58,6 +58,12 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 ## Usage
 
-- **Start Services**: Use `docker-compose up` to start all services.
+- **Start Services**: Use `docker-compose up --detach` to start all services.
 - **Stop Services**: Use `docker-compose down` to stop and remove containers.
+- **Clean up resources**: 
+   ```
+   docker volume rm ollama-sql-faststart_sql-data && \
+   docker volume rm ollama-sql-faststart_ollama_models &&
+   rm ./certs/nginx.crt ./certs/nginx.key
+   ```
 
