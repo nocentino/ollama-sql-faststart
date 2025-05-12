@@ -2,6 +2,7 @@
 # This script will start up the Ollama SQL Faststart demo with Docker Compose
 docker compose up --detach 
 
+
 # Head over to vector-demos.sql to configure the database and run the demos
 
 

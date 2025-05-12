@@ -40,6 +40,8 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
    - Access the Ollama service on port `11434`.
    - Access NGINX on port `443` which routes to Ollama.
 
+4. Run Demos in `vector-demos.sql`
+
 
 ## Configuration
 
