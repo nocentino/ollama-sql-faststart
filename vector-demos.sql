@@ -1,3 +1,5 @@
+-- Step 1: Restore the AdventureWorks2025 database from a backup file
+
 USE [master];
 GO
 RESTORE DATABASE [AdventureWorks2025]
@@ -12,24 +14,22 @@ GO
 
 
 
-
 USE [AdventureWorks2025];
 GO
 
 
--- Example: Altering a Table to Add Vector Embeddings Column
+-- Step 2: Altering a Table to Add Vector Embeddings Column
 ALTER TABLE [SalesLT].[Product]
 ADD embeddings VECTOR(768), chunk NVARCHAR(2000);
 GO
 
-SELECT * FROM SalesLT.Product WHERE embeddings IS NULL;
 
-
--- CREATE THE EMBEDDINGS
+-- Step 3: CREATE THE EMBEDDINGS
 SET NOCOUNT ON;
 DROP TABLE IF EXISTS #MYTEMP;
 DECLARE @ProductID INT;
 DECLARE @text NVARCHAR(MAX);
+
 
 -- Create a temporary table with products that have NULL embeddings
 SELECT * 
@@ -68,25 +68,8 @@ BEGIN
     PRINT 'Processed ProductID: ' + CAST(@ProductID AS NVARCHAR(10)) + ' with text: ' + @text;
 END;
 
-USE  AdventureWorks2025;
-GO
 
-SELECT TOP 10 name, embeddings from SalesLT.Product
-
-SELECT ProductID, Name, Color from SalesLT.Product
-WHERE embeddings IS NOT NULL
-
-
-
-/*
-    VECTOR_DISTANCE
-    
-    Uses K-Nearest Neighbors or KNN
-    Use the following SQL to run similarity searches using VECTOR_DISTANCE.
-*/
-USE AdventureWorks2025;
-GO
-
+-- Step 4: Perform Vector Search
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a red bike and I dont want to spend a lot';
 DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
 

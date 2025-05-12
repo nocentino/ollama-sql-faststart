@@ -2,18 +2,20 @@
 
 ## Overview
 
-Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It provides a preconfigured environment for running SQL Server, managing models, and serving requests through NGINX with SSL support and configures SQL Server to trust this certificate.
+Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It provides a preconfigured environment for running SQL Server, Ollama, and serving requests through NGINX to Ollama with SSL support and configures SQL Server to trust this certificate. I created this project to help database professionals quickly set up a complete environment for experimenting with the new vector capabilities in SQL Server 2025. If you've been curious about implementing vector search in your SQL Server databases but weren't sure where to start, this project gives you everything you need in a containerized, ready-to-run solution.
 
-## Features
 
-- **SQL Server**: A preconfigured SQL Server instance.
-- **Ollama Integration**: Includes Ollama services for model management and pulling.
-- **NGINX with SSL**: Secure reverse proxy setup using NGINX and self-signed certificates.
-- **Health Checks**: Automated health checks for critical services.
-- **Data Persistence**: Persistent storage for SQL Server and Ollama models.
-- **Automation**: Scripts for initializing and configuring the SQL Server environment.
+## Architecture Overview
 
-## Services
+The project consists of several Docker containers working together:
+
+1. **SQL Server 2025**: Running the latest release with vector capabilities enabled
+2. **Ollama**: An open-source model serving platform that generates text embeddings
+3. **NGINX with SSL**: Acts as a secure proxy between SQL Server and Ollama
+4. **Automation containers**: For certificate generation, model pulling, and SQL Server configuration
+5. **Data Persistence**: Persistent storage for SQL Server and Ollama models.
+
+## Docker Compose Services
 
 1. **`config`**: Generates self-signed SSL certificates for NGINX.
 2. **`ollama`**: Runs the Ollama service for managing models.
@@ -32,7 +34,7 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 2. Build and start the services:
    ```bash
-   docker-compose up --detach
+   docker compose up --detach
    ```
 
 3. Verify that all services are running with `docker ps`
@@ -44,11 +46,11 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
          - Status: Healthy
 
       2. **NGINX Reverse Proxy** 
-         - **Port**: **`443`** - Secure API access
+         - **Port**: **`443`** - Secure Ollama API access
          - Status: Healthy
 
       3. **Ollama Model Server** 
-         - **Port**: **`11434`** - Direct API access
+         - **Port**: **`11434`** - Direct Ollama API access
          - Status: Healthy
 
       All services are operational and ready for vector database demos.
@@ -73,8 +75,8 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 ## Usage
 
-- **Start Services**: Use `docker-compose up --detach` to start all services.
-- **Stop Services**: Use `docker-compose down` to stop and remove containers.
+- **Start Services**: Use `docker compose up --detach` to start all services.
+- **Stop Services**: Use `docker compose down` to stop and remove containers.
 - **Clean up resources**: 
    ```
    docker volume rm ollama-sql-faststart_sql-data && \
