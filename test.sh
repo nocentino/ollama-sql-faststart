@@ -11,4 +11,5 @@ docker compose up --detach
 docker compose down && \
 docker volume rm ollama-sql-faststart_sql-data && \
 docker volume rm ollama-sql-faststart_ollama_models &&
-rm ./certs/nginx.crt ./certs/nginx.key
+docker volume rm ollama-sql-faststart_cert-data
+rm -rf certs/nginx.crt certs/nginx.key 

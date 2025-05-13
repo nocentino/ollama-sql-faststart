@@ -80,6 +80,7 @@ SELECT TOP(4)
     vector_distance('cosine', @search_vector, p.embeddings) AS distance
 FROM [SalesLT].[Product] p
 ORDER BY distance;
+GO
 
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a safe helmet that does not weigh much';
 DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
@@ -91,6 +92,7 @@ SELECT TOP(4)
     vector_distance('cosine', @search_vector, p.embeddings) AS distance
 FROM [SalesLT].[Product] p
 ORDER BY distance;
+GO
 
 DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
 DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
@@ -102,7 +104,7 @@ SELECT TOP(4)
     vector_distance('cosine', @search_vector, p.embeddings) AS distance
 FROM [SalesLT].[Product] p
 ORDER BY distance;
-
+GO
 
 /*
     VECTOR_SEARCH
