@@ -69,7 +69,7 @@ services:
         environment:
           - ACCEPT_EULA=Y
           - MSSQL_SA_PASSWORD=S0methingS@Str0ng!
-
+ 
   sql-tools:
       platform: linux/amd64
       image: mcr.microsoft.com/mssql-tools
