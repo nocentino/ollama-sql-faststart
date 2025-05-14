@@ -10,6 +10,5 @@ docker compose up --detach
 # This script will stop and remove the Docker containers, volumes and clean up the certificates
 docker compose down && \
 docker volume rm ollama-sql-faststart_sql-data && \
-docker volume rm ollama-sql-faststart_ollama_models &&
-docker volume rm ollama-sql-faststart_cert-data
-rm -rf certs/nginx.crt certs/nginx.key 
+docker volume rm ollama-sql-faststart_ollama_models
+##rm -rf certs/nginx.crt certs/nginx.key 
