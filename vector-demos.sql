@@ -25,7 +25,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 
--- Step 3: CREATE THE EMBEDDINGS
+-- Step 3: CREATE THE EMBEDDINGS (This demo is from the MS demo repository)
 SET NOCOUNT ON;
 DROP TABLE IF EXISTS #MYTEMP;
 DECLARE @ProductID INT;
