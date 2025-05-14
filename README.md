@@ -1,22 +1,3 @@
----
-title: "Getting Started with Vector Search in SQL Server 2025 Using Ollama"
-author: Anthony Nocentino
-date: 2025-05-09T05:00:00-05:01
-draft: true
-categories:
- - SQL Server
- - SQL Server 2025
- - Pure Storage
- - T-SQL REST API Integrations
- - Using T-SQL Snapshot Backup
-tags:
- - SQL Server
- - SQL Server 2025
- - Pure Storage
- - T-SQL REST API Integrations
- - Using T-SQL Snapshot Backup
----
-
 # Ollama SQL FastStart
 
 Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It offers a preconfigured environment for running SQL Server and Ollama, while also serving requests through NGINX with SSL support. Additionally, it configures SQL Server to trust this SSL certificate.
