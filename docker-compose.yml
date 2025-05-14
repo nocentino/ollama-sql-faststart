@@ -4,7 +4,7 @@ services:
         context: .
         dockerfile: dockerfile.ssl
       volumes:
-        - "${HOST_PROJECT_DIR}/certs/:/certs/"
+        - "./certs/:/certs/"
       command: sh /certs/generate_ssl.sh
 
   ollama:
@@ -35,8 +35,8 @@ services:
       ports:
         - "443:443"
       volumes:
-        - "${HOST_PROJECT_DIR}/config/nginx.conf:/etc/nginx/nginx.conf:ro"
-        - "${HOST_PROJECT_DIR}/certs:/etc/nginx/certs:ro"
+        - "./config/nginx.conf:/etc/nginx/nginx.conf:ro"
+        - "./certs:/etc/nginx/certs:ro"
       networks:
         app_network:
 
@@ -53,7 +53,7 @@ services:
 
   sql1:
         platform: linux/amd64
-        image: sqlbuilds.azurecr.io/mssql-sql2025-ctp2-0-release/mssql-server-ubuntu-22.04:17.0.700.9_1
+        image: sqlservereap.azurecr.io/mssql-sql2025-ctp1-5-release/mssql-server-ubuntu-22.04:17.0.600.9_1
         restart: unless-stopped
         depends_on: 
           - model-web
@@ -64,8 +64,8 @@ services:
           - 1433:1433
         volumes:
           - sql-data:/var/opt/mssql
-          - "${HOST_PROJECT_DIR}/certs/nginx.crt:/var/opt/mssql/security/ca-certificates/public.crt:ro"
-          - "${HOST_PROJECT_DIR}/backups:/var/opt/mssql/backups/"
+          - "./certs/nginx.crt:/var/opt/mssql/security/ca-certificates/public.crt:ro"
+          - "./backups:/var/opt/mssql/backups/"
         environment:
           - ACCEPT_EULA=Y
           - MSSQL_SA_PASSWORD=S0methingS@Str0ng!
