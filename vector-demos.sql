@@ -53,16 +53,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 
--- Step 4: CREATE THE EMBEDDINGS (This demo is from the MS demo repository)
-SET NOCOUNT ON;
-DROP TABLE IF EXISTS #MYTEMP;
-DECLARE @ProductID INT;
-DECLARE @text NVARCHAR(MAX);
-
-
--- Create a temporary table with products that have NULL embeddings
-SET NOCOUNT ON;
-
+-- Step 4: CREATE THE EMBEDDINGS (This demo is based off the MS SQL 2025 demo repository)
 UPDATE p
 SET 
  [chunk] = p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, ''),
