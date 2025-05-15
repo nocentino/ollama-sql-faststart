@@ -14,11 +14,10 @@ GO
 ----------------------------------------------------------------------------------------
 
 
-
+-- Step 2: Altering a Table to Add Vector Embeddings Column ----------------------------
 USE [AdventureWorks2025];
 GO
 
--- Step 2: Altering a Table to Add Vector Embeddings Column ----------------------------
 ALTER TABLE [SalesLT].[Product]
 ADD embeddings VECTOR(768), chunk NVARCHAR(2000);
 GO
@@ -33,47 +32,23 @@ DECLARE @text NVARCHAR(MAX);
 
 
 -- Create a temporary table with products that have NULL embeddings
-SELECT * 
-INTO #MYTEMP 
-FROM [SalesLT].[Product] 
-WHERE embeddings IS NULL;
+SET NOCOUNT ON;
 
--- Loop through all rows in the temporary table
-WHILE EXISTS (SELECT 1 FROM #MYTEMP)
-BEGIN
-    -- Get the next ProductID from the temporary table
-    SELECT TOP(1) @ProductID = ProductID 
-    FROM #MYTEMP;
-
-    -- Generate the text for embeddings
-    SET @text = (
-        SELECT p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, '')
-        FROM [SalesLT].[ProductCategory] c,
-             [SalesLT].[ProductModel] m,
-             [SalesLT].[Product] p
-        LEFT OUTER JOIN [SalesLT].[vProductAndDescription] d
-        ON p.ProductID = d.ProductID AND d.Culture = 'en'
-        WHERE p.ProductCategoryID = c.ProductCategoryID AND p.ProductModelID = m.ProductModelID AND p.ProductID = @ProductID
-    );
-
-    -- Update the embeddings and chunk columns in the main table
-    UPDATE [SalesLT].[Product]
-    SET [embeddings] = AI_GENERATE_EMBEDDINGS(@text MODEL ollama),
-        [chunk] = @text
-    WHERE ProductID = @ProductID;
-
-    -- Remove the processed row from the temporary table
-    DELETE FROM #MYTEMP 
-    WHERE ProductID = @ProductID;
-
-    PRINT 'Processed ProductID: ' + CAST(@ProductID AS NVARCHAR(10)) + ' with text: ' + @text;
-END;
+UPDATE p
+SET 
+ [chunk] = p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, ''),
+ [embeddings] = AI_GENERATE_EMBEDDINGS(p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, ''), ollama)
+FROM [SalesLT].[Product] p
+JOIN [SalesLT].[ProductCategory] c ON p.ProductCategoryID = c.ProductCategoryID
+JOIN [SalesLT].[ProductModel] m ON p.ProductModelID = m.ProductModelID
+LEFT JOIN [SalesLT].[vProductAndDescription] d ON p.ProductID = d.ProductID AND d.Culture = 'en'
+WHERE p.embeddings IS NULL;
 ----------------------------------------------------------------------------------------
 
 
 -- Step 4: Perform Vector Search -------------------------------------------------------
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a red bike and I dont want to spend a lot';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
 
 SELECT TOP(4)
     p.ProductID,

@@ -11,4 +11,12 @@ docker compose up --detach
 docker compose down && \
 docker volume rm ollama-sql-faststart_sql-data && \
 docker volume rm ollama-sql-faststart_ollama_models
-##rm -rf certs/nginx.crt certs/nginx.key 
+
+
+docker run \
+    --name 'sql2' \
+    --hostname 'sql2' \
+    -e 'ACCEPT_EULA=Y' \
+    -e 'MSSQL_SA_PASSWORD=S0methingS@Str0ng!' \
+    -p 1434:1433 \
+    -d sqlservereap.azurecr.io/mssql-sql2025-ctp1-5-release/mssql-server-ubuntu-22.04 
