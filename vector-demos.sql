@@ -13,7 +13,10 @@ WITH
 GO
 ----------------------------------------------------------------------------------------
 
--- Step 2: Create an External Model pointing to our local Ollama Container --------------
+-- Step 2: Create and test an External Model pointing to our local Ollama Container ----
+USE [AdventureWorks2025]
+GO
+
 CREATE EXTERNAL MODEL ollama
 WITH (
     LOCATION = 'https://model-web:443/api/embed',
@@ -28,7 +31,7 @@ GO
 BEGIN
     DECLARE @result NVARCHAR(MAX);
     SET @result = (SELECT CONVERT(NVARCHAR(MAX), AI_GENERATE_EMBEDDINGS(N'test text', ollama)))
-    SELECT AI_GENERATE_EMBEDDINGS(N'test text', ollama) 
+    SELECT AI_GENERATE_EMBEDDINGS(N'test text', ollama) AS GeneratedEmbedding
 
     IF @result IS NOT NULL
         PRINT 'Model test successful. Result: ' + @result;
@@ -44,7 +47,8 @@ USE [AdventureWorks2025];
 GO
 
 ALTER TABLE [SalesLT].[Product]
-ADD embeddings VECTOR(768), chunk NVARCHAR(2000);
+ADD embeddings VECTOR(768), 
+    chunk NVARCHAR(2000);
 GO
 ----------------------------------------------------------------------------------------
 
