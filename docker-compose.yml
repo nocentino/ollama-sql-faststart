@@ -50,7 +50,8 @@ services:
       networks:
         - app_network
       entrypoint: sh -c "sleep 5 && ollama pull nomic-embed-text"
-
+#sqlservereap.azurecr.io/mssql-sql2025-ctp1-4-release/mssql-server-ubuntu-22.04:17.0.500.4_1
+#
   sql1:
         platform: linux/amd64
         image: sqlbuilds.azurecr.io/mssql-sql2025-ctp2-0-release/mssql-server-ubuntu-22.04:17.0.700.9_1
