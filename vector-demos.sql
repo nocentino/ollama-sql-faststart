@@ -1,5 +1,4 @@
 -- Step 1: Restore the AdventureWorks2025 database from a backup file -------------------
-
 USE [master];
 GO
 RESTORE DATABASE [AdventureWorks2025]
@@ -11,6 +10,7 @@ WITH
     NOUNLOAD,
     STATS = 5;
 GO
+
 ----------------------------------------------------------------------------------------
 
 -- Step 2: Create and test an External Model pointing to our local Ollama Container ----
@@ -95,7 +95,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a safe helmet that does not weigh much';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
 
 SELECT TOP(4)
     p.ProductID,
@@ -109,7 +109,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text MODEL ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
 
 SELECT TOP(4)
     p.ProductID,
@@ -121,6 +121,7 @@ ORDER BY distance;
 GO
 
 ----------------------------------------------------------------------------------------
+
 
 -- Step 6: Create a Vector Index - Uses Approximate Nearest Neighbors or ANN------------
 -- Enable trace flags for vector features
