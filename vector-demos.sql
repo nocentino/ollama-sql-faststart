@@ -1,5 +1,5 @@
 -- Step 1: Restore the AdventureWorks2025 database from a backup file -------------------
-USE [master];
+USE [master]; select @@VERSION
 GO
 RESTORE DATABASE [AdventureWorks2025]
 FROM DISK = '/var/opt/mssql/backups/AdventureWorks2025_FULL.bak'
