@@ -54,7 +54,7 @@ services:
 #
   sql1:
         platform: linux/amd64
-        image: sqlbuilds.azurecr.io/mssql-sql2025-ctp2-0-release/mssql-server-ubuntu-22.04:17.0.700.9_1
+        image: mcr.microsoft.com/mssql/server:2025-CTP2.0-ubuntu-22.04
         restart: unless-stopped
         depends_on: 
           - model-web
