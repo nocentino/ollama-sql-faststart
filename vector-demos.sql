@@ -139,20 +139,15 @@ FROM sys.indexes
 WHERE type = 8;
 GO
 
-
--- Verify the vector index
-SELECT * 
-FROM sys.indexes 
-WHERE type = 8;
-GO
-
--- ANN Search
+-- ANN Search and then applies the predicate specified in the WHERE clause.
 DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
 DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
 
 SELECT
+    t.ProductID,
     t.chunk,
-    s.distance
+    s.distance,
+    t.ListPrice
 FROM vector_search(
     table = [SalesLT].[Product] AS t,
     column = [embeddings],
@@ -160,6 +155,7 @@ FROM vector_search(
     metric = 'cosine',
     top_n = 10
 ) AS s
+WHERE ListPrice < 40
 ORDER BY s.distance;
 GO
 ----------------------------------------------------------------------------------------
