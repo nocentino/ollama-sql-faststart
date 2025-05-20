@@ -1,5 +1,5 @@
 -- Step 1: Restore the AdventureWorks2025 database from a backup file -------------------
-USE [master]; select @@VERSION
+USE [master]; 
 GO
 RESTORE DATABASE [AdventureWorks2025]
 FROM DISK = '/var/opt/mssql/backups/AdventureWorks2025_FULL.bak'
@@ -30,8 +30,8 @@ PRINT 'Testing the external model by calling get_embeddings function...';
 GO
 BEGIN
     DECLARE @result NVARCHAR(MAX);
-    SET @result = (SELECT CONVERT(NVARCHAR(MAX), AI_GENERATE_EMBEDDINGS(N'test text', ollama)))
-    SELECT AI_GENERATE_EMBEDDINGS(N'test text', ollama) AS GeneratedEmbedding
+    SET @result = (SELECT CONVERT(NVARCHAR(MAX), AI_GENERATE_EMBEDDINGS(N'test text' USE MODEL ollama)))
+    SELECT AI_GENERATE_EMBEDDINGS(N'test text' USE MODEL ollama) AS GeneratedEmbedding
 
     IF @result IS NOT NULL
         PRINT 'Model test successful. Result: ' + @result;
@@ -57,7 +57,7 @@ GO
 UPDATE p
 SET 
  [chunk] = p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, ''),
- [embeddings] = AI_GENERATE_EMBEDDINGS(p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, ''), ollama)
+ [embeddings] = AI_GENERATE_EMBEDDINGS(p.Name + ' ' + ISNULL(p.Color, 'No Color') + ' ' + c.Name + ' ' + m.Name + ' ' + ISNULL(d.Description, '') USE MODEL ollama)
 FROM [SalesLT].[Product] p
 JOIN [SalesLT].[ProductCategory] c ON p.ProductCategoryID = c.ProductCategoryID
 JOIN [SalesLT].[ProductModel] m ON p.ProductModelID = m.ProductModelID
@@ -72,7 +72,7 @@ FROM [SalesLT].[Product] p
 
 -- Step 5: Perform Vector Search -------------------------------------------------------
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a red bike and I dont want to spend a lot';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text USE MODEL ollama);
 
 SELECT TOP(4)
     p.ProductID,
@@ -86,7 +86,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a safe helmet that does not weigh much';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text USE MODEL ollama);
 
 SELECT TOP(4)
     p.ProductID,
@@ -100,7 +100,7 @@ GO
 ----------------------------------------------------------------------------------------
 
 DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text USE MODEL ollama);
 
 SELECT TOP(4)
     p.ProductID,
@@ -141,7 +141,7 @@ GO
 
 -- ANN Search and then applies the predicate specified in the WHERE clause.
 DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
-DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text, ollama);
+DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text USE MODEL ollama);
 
 SELECT
     t.ProductID,
