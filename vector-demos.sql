@@ -26,7 +26,7 @@ WITH (
 );
 GO
 
-PRINT 'Testing the external model by calling get_embeddings function...';
+PRINT 'Testing the external model by calling AI_GENERATE_EMBEDDINGS function...';
 GO
 BEGIN
     DECLARE @result NVARCHAR(MAX);
