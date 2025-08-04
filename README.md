@@ -76,14 +76,14 @@ Connect using your favorite SQL Server tooling, SSMS, or VSCode to localhost, 14
 
 ### Demo Steps
 
-The demo script is broken up into 5 steps walking you through how to setup SQL Server 2025 database for AI enabled similarity search.
+The demo script is broken up into 5 steps walking you through how to setup SQL Server 2025 database for AI enabled similarity search. Executing this script will perform all of the below tasks.
 
 #### 1. Database Setup
-- Restores `AdventureWorks2025` database from backup
+- Restores `AdventureWorks2025` database from backup. If you want to do this manually, the backup file is located in /var/opt/mssql/backup in the container.
 
 #### 2. Vector Storage
-- Adds `VECTOR(768)` column to `Product` table for embeddings
-- Adds text `chunk` column for storing descriptive text
+- Adds `VECTOR(768)` column to `Product` table for embeddings. The 768 describes the number of dimensions in each vector.
+- Adds text `chunk` column for storing descriptive text. The chunk refers to prepatory step of "chunking" the data before it is transformed into vectors.
 
 #### 3. Embedding Generation
 - Processes each product record
@@ -95,7 +95,7 @@ The demo script is broken up into 5 steps walking you through how to setup SQL S
 
 #### 5. Advanced Vector Search
 - Enables required trace flags
-- Creates a vector index using the DiskANN algorithm
+- Creates a vector index using the DiskANN algorithm. Note: Vector columns do not support b-tree indexes
 - Performs efficient Approximate Nearest Neighbor (ANN) search
 
 The script showcases a complete vector search implementation from setup to optimized semantic queries.
