@@ -115,15 +115,14 @@ GO
 
 
 -- Step 6: Create a Vector Index - Uses Approximate Nearest Neighbors or ANN------------
--- Enable trace flags for vector features
-DBCC TRACEON (466, 474, 13981, -1);
+-- Enable Preview Feature
+ALTER DATABASE SCOPED CONFIGURATION
+SET PREVIEW_FEATURES = ON;
 GO
 
--- Check trace flags status
-DBCC TRACESTATUS;
+SELECT * FROM sys.database_scoped_configurations
+WHERE [name] = 'PREVIEW_FEATURES'
 GO
-
-
 -- Create a vector index
 CREATE VECTOR INDEX vec_idx ON [SalesLT].[Product]([embeddings])
 WITH (
