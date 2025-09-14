@@ -94,6 +94,10 @@ JOIN [SalesLT].[Product] p ON pe.ProductID = p.ProductID
 ORDER BY distance;
 GO
 
+
+--Take note of the IO and Time statistics for this query without an index, you'll see a table scan on the ProductEmbeddings table
+
+
 ----------------------------------------------------------------------------------------
 
 
@@ -123,7 +127,7 @@ WHERE type = 8;
 GO
 
 -- ANN Search and then applies the predicate specified in the WHERE clause.
-DECLARE @search_text NVARCHAR(MAX) = 'Do you sell any padded seats that are good on trails?';
+DECLARE @search_text NVARCHAR(MAX) = 'I am looking for a red bike and I dont want to spend a lot';
 DECLARE @search_vector VECTOR(768) = AI_GENERATE_EMBEDDINGS(@search_text USE MODEL ollama);
 
 SELECT
@@ -139,9 +143,11 @@ FROM vector_search(
     top_n = 10
 ) AS s
 JOIN [SalesLT].[Product] p ON t.ProductID = p.ProductID
-WHERE p.ListPrice < 40
 ORDER BY s.distance;
 GO
+
+--Take note of the IO and Time statistics for this query with the vector index, you'll see a lot less IO and time taken due to the index scan instead of a table scan
+
 ----------------------------------------------------------------------------------------
 
 
