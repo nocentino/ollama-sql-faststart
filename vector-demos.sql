@@ -5,7 +5,7 @@ GO
 USE [master];
 GO
 RESTORE DATABASE [AdventureWorksLT]
-FROM DISK = '/var/opt/mssql/data/AdventureWorks2025_FULL.bak'
+FROM DISK = '/var/opt/mssql/backups/AdventureWorks2025_FULL.bak'
 WITH
     MOVE 'AdventureWorksLT2022_Data' TO '/var/opt/mssql/data/AdventureWorksLT_Data.mdf',
     MOVE 'AdventureWorksLT2022_Log' TO '/var/opt/mssql/data/AdventureWorksLT_log.ldf',
