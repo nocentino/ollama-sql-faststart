@@ -4,8 +4,7 @@ Ollama SQL FastStart is a Docker-based project designed to simplify the setup an
 
 I created this project to assist database professionals in quickly establishing a complete environment for exploring the new vector capabilities in SQL Server 2025. If you have been interested in implementing vector search in your SQL Server databases but were unsure where to begin, this project provides everything you need in a ready-to-run, containerized solution. The project automatically handles the requirement for SQL Server to trust the SSL certificate used by NGINX for secure communication with Ollama.
 
-> **Note:** SQL Server 2025 RC0 is vector operations are now functional on Macs with M-series CPUs via Rosetta 2
-
+> **Note:** SQL Server 2025 vector operations are now functional on Macs with M-series CPUs via Rosetta 2
 
 ## Architecture Overview
 
@@ -42,7 +41,7 @@ Everything is tied together with Docker Compose for easy deployment. The archite
 
 ### 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/ollama-sql-faststart.git
+git clone https://github.com/nocentino/ollama-sql-faststart.git
 cd ollama-sql-faststart
 ```
 
@@ -72,7 +71,7 @@ Once up and running, you'll have access to:
 
 The SQL script `vector-demos.sql` demonstrates vector search capabilities in SQL Server 2025 with Ollama integration:
 
-Connect using your favorite SQL Server tooling, SSMS, or VSCode to localhost, 1433. The default username is `sa,` and the default password is `S0methingS@Str0ng!` 
+Connect using your favorite SQL Server tooling, SSMS, or VSCode to localhost, 1433. The default username is `sa,` and the default password is `S0methingS@Str0ng!`.
 
 ### Demo Steps
 
