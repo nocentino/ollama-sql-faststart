@@ -1,6 +1,6 @@
 # Ollama SQL FastStart
 
-Ollama SQL FastStart is a Docker-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It offers a preconfigured environment for running SQL Server and Ollama, while also serving requests through NGINX with SSL support. Additionally, it configures SQL Server to trust this SSL certificate.
+Ollama SQL FastStart is a container-based project designed to simplify the setup and management of a SQL Server 2025 environment integrated with Ollama services. It offers a preconfigured environment for running SQL Server and Ollama, while also serving requests through NGINX with SSL support. Additionally, it configures SQL Server to trust this SSL certificate.
 
 I created this project to assist database professionals in quickly establishing a complete environment for exploring the new vector capabilities in SQL Server 2025. If you have been interested in implementing vector search in your SQL Server databases but were unsure where to begin, this project provides everything you need in a ready-to-run, containerized solution. The project automatically handles the requirement for SQL Server to trust the SSL certificate used by NGINX for secure communication with Ollama.
 
@@ -8,7 +8,7 @@ I created this project to assist database professionals in quickly establishing 
 
 ## Architecture Overview
 
-The project consists of several Docker containers working together:
+The project consists of several containers working together:
 
 1. **SQL Server 2025**: Running the latest release with vector capabilities enabled
 2. **Ollama**: An open-source model serving platform that generates text embeddings
@@ -17,16 +17,16 @@ The project consists of several Docker containers working together:
 5. **Data Persistence**: Persistent storage for SQL Server and Ollama models.
 
 
-The docker compose implementation process will:
+The Compose implementation process will:
 - Generate SSL certificates for secure communication
 - Start SQL Server 2025
 - Launch Ollama and pull the `nomic-embed-text` model
 - Configure SQL Server to trust the certificates
 - Create an external model connection to Ollama's secure TLS endpoint in SQL Server
 
-## Docker Compose Services
+## Compose Services
 
-Everything is tied together with Docker Compose for easy deployment. The architecture ensures secure communication between components while keeping everything neatly containerized.
+Everything is tied together with Compose for easy deployment. The architecture ensures secure communication between components while keeping everything neatly containerized.
 
 | Service | Description |
 |---------|-------------|
@@ -50,7 +50,6 @@ cd ollama-sql-faststart
 docker compose up --detach
 ```
 
-### 3. Verify that all services are running with `docker ps`
 
 Three containers are running successfully:
 
