@@ -4,7 +4,7 @@ Ollama SQL FastStart is a container-based project designed to simplify the setup
 
 I created this project to assist database professionals in quickly establishing a complete environment for exploring the new vector capabilities in SQL Server 2025. If you have been interested in implementing vector search in your SQL Server databases but were unsure where to begin, this project provides everything you need in a ready-to-run, containerized solution. The project automatically handles the requirement for SQL Server to trust the SSL certificate used by NGINX for secure communication with Ollama.
 
-> **Note:** SQL Server 2025 vector operations are now functional on Macs with M-series CPUs via Rosetta 2
+> **Note:** SQL Server 2025 vector operations are now functional on Macs with M-series CPUs via Rosetta 2, but using Orbstack see this [blog post](https://www.nocentino.com/posts/2025-11-26-sql-server-2025-docker-desktop-avx-issue/)
 
 ## Architecture Overview
 
