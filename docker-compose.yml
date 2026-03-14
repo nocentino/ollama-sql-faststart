@@ -53,7 +53,7 @@ services:
 
   sql1:
         platform: linux/amd64
-        image: mcr.microsoft.com/mssql/server:2025-RTM-ubuntu-22.04
+        image: mcr.microsoft.com/mssql/server:2025-latest
         restart: unless-stopped
         depends_on: 
           - model-web
